@@ -1,0 +1,71 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  role      String   @default("viewer") // Possible values: admin, organizer, viewer
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  events    Event[]  @relation("EventOrganizer")
+  sessions  Session[] @relation("SessionParticipant")
+}
+
+model Event {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String
+  dateTime    DateTime
+  duration    Int
+  type        String    // Virtual or Hybrid
+  capacity    Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relations
+  organizerId Int
+  organizer   User      @relation("EventOrganizer", fields: [organizerId], references: [id])
+  sessions    Session[]
+  analytics   Analytics[]
+}
+
+model Session {
+  id          Int       @id @default(autoincrement())
+  name        String
+  startTime   DateTime
+  endTime     DateTime
+  eventId     Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relations
+  event       Event     @relation(fields: [eventId], references: [id])
+  attendees   User[]    @relation("SessionParticipant")
+  analytics   Analytics[]
+}
+
+model Analytics {
+  id          Int       @id @default(autoincrement())
+  sessionId   Int
+  eventId     Int
+  messageCount Int      @default(0)  // Number of chat messages
+  questionCount Int     @default(0)  // Number of questions asked
+  reactionCount Int     @default(0)  // Number of reactions (like, applause, etc.)
+  avgTimeSpent Float    @default(0)  // Average time attendees spent in the session
+  sentimentScore Float  @default(0)  // Sentiment analysis score (calculated by Python service)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Relations
+  session     Session   @relation(fields: [sessionId], references: [id])
+  event       Event     @relation(fields: [eventId], references: [id])
+}
