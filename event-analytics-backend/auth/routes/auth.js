@@ -92,4 +92,9 @@ router.delete("/delete", async (req, res) => {
   }
 });
 
+// Logout Route
+router.post("/logout", async (req, res) => {
+  res.json({ message: "User logged out successfully!" });
+});
+
 module.exports = router;

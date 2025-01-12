@@ -1,4 +1,5 @@
 import AuthForm from '../../components/AuthForm';
+import '../../styles/globals.css';
 
 const LoginPage = () => {
   return (

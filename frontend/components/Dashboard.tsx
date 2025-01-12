@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Card, Button, Spinner } from '@nextui-org/react';
 import { getEvents } from '../services/events';
+import '../../styles/globals.css';
 
 const Dashboard = () => {
   const [dashboardData, setDashboardData] = useState<any>(null);

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Card, Progress, Spacer, Spinner } from '@nextui-org/react';
 import { getAnalytics } from '../services/analytics';
+import '../../styles/globals.css';
 
 const AnalyticsDisplay = ({ eventId }: { eventId: string }) => {
   const [analytics, setAnalytics] = useState<any>(null);

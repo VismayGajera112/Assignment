@@ -10,7 +10,7 @@
   
   body {
     font-family: 'Arial', sans-serif;
-    background-color: var(--background-color);
+    background-color: linear-gradient(135deg, #FFC371, #FF5F6D);
     margin: 0;
     padding: 0;
     color: var(--text-color);
