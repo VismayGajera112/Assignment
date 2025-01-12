@@ -22,7 +22,7 @@ const AuthForm = ({ type }: { type: 'login' | 'register' | 'reset-password' }) =
         await handleLogin(email, password);
         router.push('/dashboard');
       } else if (type === 'register') {
-        await handleRegister(email, password, role); // Assuming 'viewer' as default role
+        await handleRegister(email, password, role);
         router.push('/auth/login');
       } else if (type === 'reset-password') {
         await handleResetPassword(email);
