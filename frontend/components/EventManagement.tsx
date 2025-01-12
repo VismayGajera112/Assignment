@@ -8,10 +8,10 @@ const EventManagement = () => {
   const [newEvent, setNewEvent] = useState({
     name: "",
     description: "",
-    dateTime: "",
-    duration: "",
+    dateTime: new Date(),
+    duration: 0,
     type: "",
-    capacity: "",
+    capacity: 0,
   });
 
   const handleCreateEvent = async () => {
@@ -20,10 +20,10 @@ const EventManagement = () => {
       setNewEvent({
         name: "",
         description: "",
-        dateTime: "",
-        duration: "",
+        dateTime: new Date(),
+        duration: 0,
         type: "",
-        capacity: "",
+        capacity: 0,
       });
     }
   };
@@ -69,9 +69,9 @@ const EventManagement = () => {
           placeholder="Event Date and Time"
           fullWidth
           type="datetime-local"
-          value={newEvent.dateTime}
+          value={newEvent.dateTime.toISOString().slice(0, 16)}
           onChange={(e) =>
-            setNewEvent({ ...newEvent, dateTime: e.target.value })
+            setNewEvent({ ...newEvent, dateTime: new Date(e.target.value) })
           }
           style={{ marginBottom: "16px" }}
         />
@@ -80,9 +80,9 @@ const EventManagement = () => {
           placeholder="Event Duration (in hours)"
           fullWidth
           type="number"
-          value={newEvent.duration}
+          value={newEvent.duration.toString()}
           onChange={(e) =>
-            setNewEvent({ ...newEvent, duration: e.target.value })
+            setNewEvent({ ...newEvent, duration: Number(e.target.value) })
           }
           style={{ marginBottom: "16px" }}
         />
@@ -109,9 +109,9 @@ const EventManagement = () => {
           placeholder="Event Capacity"
           fullWidth
           type="number"
-          value={newEvent.capacity}
+          value={newEvent.capacity.toString()}
           onChange={(e) =>
-            setNewEvent({ ...newEvent, capacity: e.target.value })
+            setNewEvent({ ...newEvent, capacity: Number(e.target.value) })
           }
           style={{ marginBottom: "16px" }}
         />

@@ -1,31 +1,20 @@
-import { useState, useEffect } from 'react';
-import { getEvents, createEvent as createEventService, deleteEvent as deleteEventService } from '../services/events';
+import { useState } from 'react';
+import { createEvent as createEventService, deleteEvent as deleteEventService } from '../services/events';
 
 const useEventManagement = () => {
   const [events, setEvents] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const response = await getEvents();
-        setEvents(response.data);
-      } catch (error) {
-        console.error('Failed to fetch events', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchEvents();
-  }, []);
+  const [isLoading] = useState<boolean>(true);
 
   const createEvent = async (event: any) => {
     try {
       const response = await createEventService(event);
       setEvents([...events, response.data]);
     } catch (error) {
-      console.error('Failed to create event', error);
+      if (error) {
+        console.error('Event not found', error);
+      } else {
+        console.error('Failed to create event', error);
+      }
     }
   };
 

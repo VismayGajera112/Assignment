@@ -4,6 +4,14 @@ export const getEvents = () => {
   return api.get('/events');
 };
 
+export const getEvent = (eventId: string) => {
+  return api.get(`/events/${eventId}`);
+};
+
+export const getEventsByOrganizer = (organizerId: string) => {
+  return api.get(`/events/organizer/${organizerId}`);
+};
+
 export const createEvent = (data: any) => {
   return api.post('/events', data);
 };

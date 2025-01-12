@@ -31,6 +31,34 @@ router.get("/", async (req, res) => {
   }
 });
 
+// Get an Event by ID (Public)
+router.get("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const event = await prisma.event.findUnique({ where: { id: parseInt(id) } });
+
+    if (!event) {
+      return res.status(404).json({ error: "Event not found" });
+    }
+
+    res.json(event);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch event" });
+  }
+});
+
+// Get Events by Organizer ID (Admin/Organizer)
+router.get("/organizer/:id", roleCheck(["admin", "organizer"]), async (req, res) => {
+  try {
+    const { id } = req.params;
+    const events = await prisma.event.findMany({ where: { organizerId: parseInt(id) } });
+
+    res.json(events);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch events" });
+  }
+});
+
 // Update an Event (Admin/Organizer)
 router.put("/:id", roleCheck(["admin", "organizer"]), async (req, res) => {
   try {

@@ -3,7 +3,7 @@ import EventManagement from '../../components/EventManagement';
 
 const EventsPage = () => {
   return (
-    <div style={{ padding: '20px' }}>
+    <div>
       <Navbar />
       <EventManagement />
     </div>
