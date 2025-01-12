@@ -1,0 +1,44 @@
+/* Define Global Colors */
+:root {
+    --primary-color: #0066ff;
+    --secondary-color: #ff6f61;
+    --accent-color: #00d1b2;
+    --background-color: #f5f7fa;
+    --text-color: #333;
+    --card-bg: #ffffff;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 0;
+    color: var(--text-color);
+  }
+  
+  h1, h2, h3, h4 {
+    font-family: 'Roboto', sans-serif;
+    color: var(--primary-color);
+  }
+  
+  /* Apply shadow to elements */
+  .card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Buttons */
+  button {
+    background-color: var(--primary-color);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: var(--accent-color);
+  }
+  
