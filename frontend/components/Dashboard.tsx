@@ -1,17 +1,42 @@
 import { useEffect, useState } from 'react';
 import { Card, Button, Spinner } from '@nextui-org/react';
-import { getEvents } from '../services/events';
-import '../../styles/globals.css';
+import { getEventsByOrganizer } from '../services/events';
+import '../styles/globals.css';
+
+const getUserIdFromToken = (token: string): string => {
+  try {
+    const base64Payload = token.split(".")[1];
+    const decoded = JSON.parse(atob(base64Payload));
+    return decoded?.id || "";
+  } catch {
+    return "";
+  }
+};
+
+const decodeRole = (token: string): string => {
+  try {
+    const base64Payload = token.split(".")[1];
+    const decoded = JSON.parse(atob(base64Payload));
+    return decoded?.role || "";
+  } catch {
+    return "";
+  }
+};
 
 const Dashboard = () => {
   const [dashboardData, setDashboardData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const organizerId = getUserIdFromToken(localStorage.getItem('token') || '');
 
   useEffect(() => {
     const getDashboardData = async () => {
       try {
-        const data = await getEvents();
-        setDashboardData(data);
+        const role = decodeRole(localStorage.getItem('token') || '');
+        if (role === 'organizer') {
+          const data = await getEventsByOrganizer(organizerId);
+          console.log('Dashboard data:', data);
+          setDashboardData(data);
+        }
       } catch (error) {
         console.error('Error fetching dashboard data:', error);
       } finally {
@@ -20,7 +45,7 @@ const Dashboard = () => {
     };
 
     getDashboardData();
-  }, []);
+  }, [organizerId]);
 
   if (loading) {
     return (
@@ -32,19 +57,44 @@ const Dashboard = () => {
 
   return (
     <div style={{ display: 'grid', gap: '16px', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', padding: '16px' }}>
-      {/* Upcoming Events Card */}
+      {/* Organizer's Events Card */}
       <Card style={{ padding: '16px', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
-        <h3 style={{ margin: '0 0 8px' }}>Upcoming Events</h3>
-        <p style={{ fontSize: '16px', margin: '0 0 16px' }}>{dashboardData?.upcomingEvents || 'No data available'}</p>
-        <Button color="primary" style={{ width: '100%' }}>
-          View All
-        </Button>
-      </Card>
-
-      {/* Recent Activity Card */}
-      <Card style={{ padding: '16px', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)' }}>
-        <h3 style={{ margin: '0 0 8px' }}>Recent Activity</h3>
-        <p style={{ fontSize: '16px', margin: '0' }}>{dashboardData?.recentActivity || 'No recent activity'}</p>
+        <h3 style={{ margin: '0 0 8px' }}>Your Events</h3>
+        <ul style={{ fontSize: '16px', margin: '0 0 16px' }}>
+          {dashboardData?.data?.length > 0 ? 
+          
+          (
+            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <thead>
+                <tr>
+                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>Name</th>
+                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>Description</th>
+                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>Capacity</th>
+                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>Type</th>
+                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>Duration</th>
+                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>Date</th>
+                  <th style={{ border: '1px solid #ddd', padding: '8px' }}>Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                {dashboardData.data.map((event: any) => (
+                  <tr key={event.id}>
+                    <td style={{ border: '1px solid #ddd', padding: '8px' }}>{event.name}</td>
+                    <td style={{ border: '1px solid #ddd', padding: '8px' }}>{event.description}</td>
+                    <td style={{ border: '1px solid #ddd', padding: '8px' }}>{event.capacity}</td>
+                    <td style={{ border: '1px solid #ddd', padding: '8px' }}>{event.type}</td>
+                    <td style={{ border: '1px solid #ddd', padding: '8px' }}>{event.duration} hours</td>
+                    <td style={{ border: '1px solid #ddd', padding: '8px' }}>{new Date(event.dateTime).toLocaleDateString()}</td>
+                    <td style={{ border: '1px solid #ddd', padding: '8px' }}>{new Date(event.dateTime).toLocaleTimeString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            )
+           : (
+            <p>No events available</p>
+          )}
+        </ul>
       </Card>
     </div>
   );

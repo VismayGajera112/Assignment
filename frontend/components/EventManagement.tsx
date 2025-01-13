@@ -69,7 +69,7 @@ const EventManagement = () => {
           placeholder="Event Date and Time"
           fullWidth
           type="datetime-local"
-          value={newEvent.dateTime.toISOString().slice(0, 16)}
+          value={newEvent.dateTime.toISOString().slice(0, 16) || "T00:00"}
           onChange={(e) =>
             setNewEvent({ ...newEvent, dateTime: new Date(e.target.value) })
           }
@@ -123,37 +123,6 @@ const EventManagement = () => {
           Create Event
         </Button>
       </Card>
-
-      {/* Display Events */}
-      {isLoading ? (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100vh",
-          }}
-        >
-          <Spinner size="lg" />
-        </div>
-      ) : (
-        events.map((event: any) => (
-          <Card
-            key={event.id}
-            style={{
-              padding: "16px",
-              borderRadius: "8px",
-              boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <h3>{event.name}</h3>
-            <p>{event.description}</p>
-            <Button color="danger" onPress={() => deleteEvent(event.id)}>
-              Delete Event
-            </Button>
-          </Card>
-        ))
-      )}
     </div>
   );
 };

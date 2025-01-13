@@ -10,7 +10,7 @@ const roleCheck = (roles) => {
         return res.status(403).json({ error: "Access forbidden: insufficient permissions" });
       }
 
-      req.user = decoded; // Attach decoded token to the request object
+      req.user = decoded;
       next();
     } catch (error) {
       res.status(401).json({ error: "Unauthorized: Invalid token" });

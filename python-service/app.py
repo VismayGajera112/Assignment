@@ -3,9 +3,16 @@ from flask_cors import CORS
 from services.sentiment_analysis import analyze_sentiment
 from services.engagement import calculate_engagement
 from services.report_generator import generate_report
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for cross-origin requests
+
+# Database configuration
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://admin:admin123@localhost:5432/event_analytics'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(app)
 
 @app.route("/")
 def home():
@@ -14,41 +21,59 @@ def home():
 # Sentiment Analysis Endpoint
 @app.route("/sentiment", methods=["POST"])
 def sentiment():
-    try:
-        data = request.json
-        text = data.get("text", "")
-        if not text:
-            return jsonify({"error": "No text provided"}), 400
-        
-        sentiment_score = analyze_sentiment(text)
-        return jsonify({"sentiment": sentiment_score})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    pass
 
 # Engagement Scoring Endpoint
 @app.route("/engagement", methods=["POST"])
 def engagement():
+    pass
+    
+# Analytics Dashboard Endpoint
+@app.route("/analytics/<int:event_id>", methods=["POST"])
+def analytics(event_id):
     try:
-        data = request.json
-        active_users = data.get("active_users", 0)
-        total_users = data.get("total_users", 1)  # Avoid division by zero
+        if not event_id:
+            return jsonify({"error": "No event_id provided"}), 400 
         
-        engagement_score = calculate_engagement(active_users, total_users)
-        return jsonify({"engagement_score": engagement_score})
+        # Fetch data from the database
+        query = """
+        SELECT 
+            message_count, 
+            question_count, 
+            reaction_count, 
+            avg_time_spent, 
+            sentiment_score 
+        FROM Analytics
+        WHERE event_id = :event_id;
+        """
+        result = db.session.execute(query, {"event_id": event_id}).fetchall()
+
+        print(result)
+    
+        if result:
+            message_count = sum(row['message_count'] for row in result)
+            question_count = sum(row['question_count'] for row in result)
+            reaction_count = sum(row['reaction_count'] for row in result)
+            avg_time_spent = sum(row['time_spent'] for row in result) / len(result) if result else 0
+            sentiment_score = sum(row['sentiment_score'] for row in result) / len(result) if result else 0
+
+            return jsonify({
+            "message_count": message_count,
+            "question_count": question_count,
+            "reaction_count": reaction_count,
+            "avg_time_spent": avg_time_spent,
+            "sentiment_score": sentiment_score
+            })
+    
+        else:
+            return jsonify({"error": "No data found for the given event_id"}), 400
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 # Report Generation Endpoint
 @app.route("/generate_report", methods=["POST"])
 def report():
-    try:
-        data = request.json
-        report_type = data.get("report_type", "summary")
-        
-        report_data = generate_report(report_type)
-        return jsonify({"report": report_data})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    pass
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5001)
+    app.run(debug=True, host="0.0.0.0", port=5000)

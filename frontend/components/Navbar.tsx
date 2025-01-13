@@ -29,25 +29,38 @@ const Navbar: React.FC = () => {
           <>
             <li className="navItem">
               <Link href="/dashboard" className="navLink">
-              Dashboard
+                Dashboard
               </Link>
             </li>
             <li className="navItem">
               <Link href="/dashboard/events" className="navLink">
-              Events
+                Events
               </Link>
             </li>
             <li className="navItem">
               <Link href="/profile" className="navLink">
-              Profile
+                Profile
               </Link>
+            </li>
+            <li className="navItem">
+              <Link href="/dashboard/analytics" className="navLink">
+                Analytics
+              </Link>
+            </li>
+            <li className="navItem">
+                <Link href={"/logout"} className="navLink" onClick={() => {
+                localStorage.removeItem("token");
+                window.location.href = "/dashboard";
+                }}>
+                Logout
+                </Link>
             </li>
           </>
         ) : (
           <>
-          <li className="navItem">
+            <li className="navItem">
               <Link href="/dashboard" className="navLink">
-              Dashboard
+                Dashboard
               </Link>
             </li>
             <li className="navItem">
@@ -59,6 +72,14 @@ const Navbar: React.FC = () => {
               <Link href="/events" className="navLink">
                 My Events
               </Link>
+            </li>
+            <li className="navItem">
+                <Link href={"/logout"} className="navLink" onClick={() => {
+                localStorage.removeItem("token");
+                window.location.href = "/";
+                }}>
+                Logout
+                </Link>
             </li>
           </>
         )}
