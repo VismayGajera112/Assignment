@@ -5,7 +5,7 @@ const pythonApi = axios.create({
   timeout: 5000,
 });
 
-export const getAnalytics = (eventId: string) => {
+export const getAnalytics = (eventId: Number) => {
   return pythonApi.post(`/analytics/${eventId}`);
 };
 

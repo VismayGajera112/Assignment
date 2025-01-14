@@ -35,20 +35,22 @@ def analytics(event_id):
         if not event_id:
             return jsonify({"error": "No event_id provided"}), 400 
         
-        # Fetch data from the database
-        query = """
-        SELECT 
-            message_count, 
-            question_count, 
-            reaction_count, 
-            avg_time_spent, 
-            sentiment_score 
-        FROM Analytics
-        WHERE event_id = :event_id;
-        """
-        result = db.session.execute(query, {"event_id": event_id}).fetchall()
-
-        print(result)
+        result = [
+            {
+            "message_count": 10,
+            "question_count": 5,
+            "reaction_count": 20,
+            "time_spent": 300,
+            "sentiment_score": 0.8
+            },
+            {
+            "message_count": 15,
+            "question_count": 3,
+            "reaction_count": 25,
+            "time_spent": 450,
+            "sentiment_score": 0.6
+            }
+        ]
     
         if result:
             message_count = sum(row['message_count'] for row in result)

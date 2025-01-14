@@ -69,11 +69,6 @@ const Navbar: React.FC = () => {
               </Link>
             </li>
             <li className="navItem">
-              <Link href="/events" className="navLink">
-                My Events
-              </Link>
-            </li>
-            <li className="navItem">
                 <Link href={"/logout"} className="navLink" onClick={() => {
                 localStorage.removeItem("token");
                 window.location.href = "/";

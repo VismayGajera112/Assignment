@@ -1,8 +1,7 @@
-import AnalyticsDisplay from '../../components/AnalyticsDisplay';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import Navbar from '@/components/Navbar';
-import { getEventsByOrganizer } from '@/services/events';
+import AnalyticsDisplay from "../../components/AnalyticsDisplay";
+import Navbar from "@/components/Navbar";
+import { getEventsByOrganizer } from "@/services/events";
+import { useEffect, useState } from "react";
 
 const getUserIdFromToken = (token: string): string => {
   try {
@@ -17,16 +16,22 @@ const getUserIdFromToken = (token: string): string => {
 const AnalyticsPage = () => {
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState("");
-  const organizerId = getUserIdFromToken(localStorage.getItem('token') || '');
-
+  const [organizerId, setOrganizerId] = useState("");
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    const fetchEvents = async () => {
+    const fetchData = async () => {
       try {
-        const response = await getEventsByOrganizer(organizerId);
-        setEvents(response.data);
-        if (response.data.length > 0) {
-          setSelectedEvent(response.data[0].id);
+        const token = localStorage.getItem("token");
+        if (token) {
+          const userId = getUserIdFromToken(token);
+          setOrganizerId(userId);
+
+          const response = await getEventsByOrganizer(userId);
+          setEvents(response.data);
+          if (response.data.length > 0) {
+            setSelectedEvent(response.data[0].id);
+          }
         }
       } catch (error) {
         console.error("Failed to fetch events", error);
@@ -35,31 +40,32 @@ const AnalyticsPage = () => {
       }
     };
 
-    fetchEvents();
-  }, [organizerId]);
+    fetchData();
+  }, []);
+
 
   const handleEventChange = (value: string) => {
     setSelectedEvent(value);
   };
 
-  console.log(selectedEvent);
-
   return (
     <div>
       <Navbar />
+      <h2>Your events</h2>
       <select
         value={selectedEvent}
         onChange={(e) => handleEventChange(e.target.value)}
         style={{ width: 200, marginBottom: 20 }}
         disabled={loading}
       >
+        <option value="">None</option>
         {events.map((event: any) => (
           <option key={event.id} value={event.id}>
             {event.name}
           </option>
         ))}
       </select>
-      <AnalyticsDisplay eventId={selectedEvent} />
+      {selectedEvent && <AnalyticsDisplay eventId={Number(selectedEvent)} />}
     </div>
   );
 };

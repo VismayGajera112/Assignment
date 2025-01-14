@@ -2,8 +2,27 @@ import { getAnalytics } from "../services/analytics";
 import { Card, Progress, Spinner } from "@nextui-org/react";
 import { useEffect, useState } from "react";
 import "../styles/globals.css";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
 
-const AnalyticsDisplay = ({ eventId }: { eventId: string }) => {
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+const AnalyticsDisplay = ({ eventId }: { eventId: Number }) => {
   const [analytics, setAnalytics] = useState<any>(null);
 
   useEffect(() => {
@@ -19,6 +38,49 @@ const AnalyticsDisplay = ({ eventId }: { eventId: string }) => {
 
     getAnalyticsData();
   }, [eventId]);
+
+  const data = {
+    labels: [
+      "Messages",
+      "Engagement",
+      "Questions",
+      "Reactions",
+      "Avg Time Spent",
+      "Sentiment Score",
+    ],
+    datasets: [
+      {
+        label: "Analytics Data",
+        data: analytics
+          ? [
+              analytics.message_count,
+              analytics.engagement,
+              analytics.question_count,
+              analytics.reaction_count,
+              analytics.avg_time_spent,
+              analytics.sentiment_score,
+            ]
+          : [],
+        backgroundColor: [
+          "rgba(75, 192, 192, 0.2)",
+          "rgba(54, 162, 235, 0.2)",
+          "rgba(255, 206, 86, 0.2)",
+          "rgba(255, 159, 64, 0.2)",
+          "rgba(153, 102, 255, 0.2)",
+          "rgba(255, 99, 132, 0.2)",
+        ],
+        borderColor: [
+          "rgba(75, 192, 192, 1)",
+          "rgba(54, 162, 235, 1)",
+          "rgba(255, 206, 86, 1)",
+          "rgba(255, 159, 64, 1)",
+          "rgba(153, 102, 255, 1)",
+          "rgba(255, 99, 132, 1)",
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
 
   if (!analytics)
     return (
@@ -43,109 +105,54 @@ const AnalyticsDisplay = ({ eventId }: { eventId: string }) => {
         alignItems: "center",
       }}
     >
-      <Card
+      <div
         style={{
-          padding: "16px",
-          borderRadius: "8px",
-          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+          display: "grid",
+          gap: "16px",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
-        <h3 style={{ margin: 0 }}>Messages</h3>
-        <p style={{ fontSize: "16px", margin: "8px 0" }}>
-          {analytics.message_count}
-        </p>
-        <Progress
-          value={(analytics.message_count / 1000) * 100}
-          color="success"
-          size="lg"
-        />
-      </Card>
+        <Card
+          style={{
+            padding: "16px",
+            borderRadius: "8px",
+            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          <h3 style={{ margin: 0 }}>Messages</h3>
+          <p style={{ fontSize: "16px", margin: "8px 0" }}>
+            {analytics.message_count}
+          </p>
+          <Progress
+            value={(analytics.message_count / 1000) * 100}
+            color="success"
+            size="lg"
+          />
+        </Card>
 
-      <Card
-        style={{
-          padding: "16px",
-          borderRadius: "8px",
-          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-        }}
-      >
-        <h3 style={{ margin: 0 }}>Engagement</h3>
-        <p style={{ fontSize: "16px", margin: "8px 0" }}>
-          {analytics.engagement}
-        </p>
-        <Progress
-          value={(analytics.engagement / 100) * 100}
-          color="primary"
-          size="lg"
-        />
-      </Card>
-      <Card
-        style={{
-          padding: "16px",
-          borderRadius: "8px",
-          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-        }}
-      >
-        <h3 style={{ margin: 0 }}>Questions</h3>
-        <p style={{ fontSize: "16px", margin: "8px 0" }}>
-          {analytics.question_count}
-        </p>
-        <Progress
-          value={(analytics.question_count / 100) * 100}
-          color="secondary"
-          size="lg"
-        />
-      </Card>
-      <Card
-        style={{
-          padding: "16px",
-          borderRadius: "8px",
-          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-        }}
-      >
-        <h3 style={{ margin: 0 }}>Reactions</h3>
-        <p style={{ fontSize: "16px", margin: "8px 0" }}>
-          {analytics.reaction_count}
-        </p>
-        <Progress
-          value={(analytics.reaction_count / 100) * 100}
-          color="warning"
-          size="lg"
-        />
-      </Card>
-      <Card
-        style={{
-          padding: "16px",
-          borderRadius: "8px",
-          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-        }}
-      >
-        <h3 style={{ margin: 0 }}>Average Time Spent</h3>
-        <p style={{ fontSize: "16px", margin: "8px 0" }}>
-          {analytics.avg_time_spent} minutes
-        </p>
-        <Progress
-          value={(analytics.avg_time_spent / 60) * 100}
-          color="danger"
-          size="lg"
-        />
-      </Card>
-      <Card
-        style={{
-          padding: "16px",
-          borderRadius: "8px",
-          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-        }}
-      >
-        <h3 style={{ margin: 0 }}>Sentiment Score</h3>
-        <p style={{ fontSize: "16px", margin: "8px 0" }}>
-          {analytics.sentiment_score}
-        </p>
-        <Progress
-          value={(analytics.sentiment_score / 10) * 100}
-          color="success"
-          size="lg"
-        />
-      </Card>
+        <Card
+          style={{
+            padding: "16px",
+            borderRadius: "8px",
+            boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          <h3 style={{ margin: 0 }}>Engagement</h3>
+          <p style={{ fontSize: "16px", margin: "8px 0" }}>
+            {analytics.engagement}
+          </p>
+          <Progress
+            value={(analytics.engagement / 100) * 100}
+            color="primary"
+            size="lg"
+          />
+        </Card>
+
+        <div style={{ width: "100%", height: "400px" }}>
+          <Bar data={data} />
+        </div>
+      </div>
     </div>
   );
 };
