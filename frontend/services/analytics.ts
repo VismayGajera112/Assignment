@@ -1,7 +1,7 @@
-import axios from 'axios'; // Separate instance for Python Microservice if needed
+import axios from 'axios';
 
 const pythonApi = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_PYTHON_API_URL || 'http://127.0.0.1:5000/', // Python Microservice
+  baseURL: process.env.NEXT_PUBLIC_PYTHON_API_URL || 'http://127.0.0.1:5000/',
   timeout: 5000,
 });
 

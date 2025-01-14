@@ -7,7 +7,6 @@ const Logout: React.FC = () => {
     const router = useRouter();
 
     useEffect(() => {
-        // Clear user session or token here
         localStorage.removeItem('token');
         // Redirect to login page after logout
         setTimeout(() => {
