@@ -1,7 +1,7 @@
 import { getEventsByOrganizer } from "../services/events";
 import { Card, Spinner } from "@nextui-org/react";
 import { useEffect, useState } from "react";
-import "../styles/globals.css";
+import './styles.css';
 
 const getUserIdFromToken = (token: string): string => {
   try {

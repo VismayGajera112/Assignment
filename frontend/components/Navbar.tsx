@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import "../styles/globals.css";
+import './styles.css';
 
 const decodeRole = (token: string): string => {
   try {

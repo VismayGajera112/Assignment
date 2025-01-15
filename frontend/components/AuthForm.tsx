@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Button, Input, Card, Spacer, Spinner } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import { useAuth } from '../hooks/useAuth';
-import '../styles/globals.css';
 import Link from 'next/link';
+import './styles.css';
 
 const AuthForm = ({ type }: { type: 'login' | 'register' | 'reset-password' }) => {
   const [email, setEmail] = useState('');

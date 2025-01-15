@@ -1,7 +1,7 @@
 import { useEventManagement } from "../hooks/useEventManagement";
 import { Card, Input, Button } from "@nextui-org/react";
 import { useState } from "react";
-import "../styles/globals.css";
+import './styles.css';
 
 const EventManagement = () => {
   const { createEvent } = useEventManagement();
