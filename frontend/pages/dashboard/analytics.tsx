@@ -16,7 +16,6 @@ const getUserIdFromToken = (token: string): string => {
 const AnalyticsPage = () => {
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState("");
-  const [organizerId, setOrganizerId] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -25,7 +24,6 @@ const AnalyticsPage = () => {
         const token = localStorage.getItem("token");
         if (token) {
           const userId = getUserIdFromToken(token);
-          setOrganizerId(userId);
 
           const response = await getEventsByOrganizer(userId);
           setEvents(response.data);

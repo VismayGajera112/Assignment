@@ -29,12 +29,9 @@ const AuthForm = ({ type }: { type: 'login' | 'register' | 'reset-password' }) =
         router.push('/auth/login');
       }
     } catch (e) {
-      if (e instanceof Error) {
-        setError((e as any).response?.data?.message || 'An error occurred, please try again.');
-      } else {
         setError('An error occurred, please try again.');
       }
-    } finally {
+    finally {
       setLoading(false);
     }
   };

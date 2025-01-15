@@ -22,7 +22,7 @@ ChartJS.register(
   Legend
 );
 
-const AnalyticsDisplay = ({ eventId }: { eventId: Number }) => {
+const AnalyticsDisplay = ({ eventId }: { eventId: number }) => {
   const [analytics, setAnalytics] = useState<any>(null);
 
   useEffect(() => {
