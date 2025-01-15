@@ -1,10 +1,10 @@
 import { useEventManagement } from "../hooks/useEventManagement";
-import { Card, Input, Button, Spinner } from "@nextui-org/react";
+import { Card, Input, Button } from "@nextui-org/react";
 import { useState } from "react";
 import "../styles/globals.css";
 
 const EventManagement = () => {
-  const { events, isLoading, createEvent, deleteEvent } = useEventManagement();
+  const { createEvent } = useEventManagement();
   const [newEvent, setNewEvent] = useState({
     name: "",
     description: "",
