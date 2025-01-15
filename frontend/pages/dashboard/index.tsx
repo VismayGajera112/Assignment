@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { withAuth } from '../../hooks/withAuth';
-import '../../styles/globals.css';
 import Navbar from '../../components/Navbar';
 import DashboardComponent from '../../components/Dashboard';
 import Home from '../home';
