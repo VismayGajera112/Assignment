@@ -22,8 +22,18 @@ ChartJS.register(
   Legend
 );
 
+interface AnalyticsData {
+  message_count: number;
+  engagement: number;
+  question_count: number;
+  reaction_count: number;
+  avg_time_spent: number;
+  sentiment_score: number;
+}
+
 const AnalyticsDisplay = ({ eventId }: { eventId: number }) => {
-  const [analytics, setAnalytics] = useState<any>(null);
+
+  const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
 
   useEffect(() => {
     const getAnalyticsData = async () => {

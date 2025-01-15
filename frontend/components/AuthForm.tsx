@@ -17,7 +17,6 @@ const AuthForm = ({ type }: { type: 'login' | 'register' | 'reset-password' }) =
   const handleSubmit = async () => {
     setLoading(true);
     setError('');
-    try {
       if (type === 'login') {
         await handleLogin(email, password);
         router.push('/dashboard');
@@ -28,12 +27,6 @@ const AuthForm = ({ type }: { type: 'login' | 'register' | 'reset-password' }) =
         await handleResetPassword(email);
         router.push('/auth/login');
       }
-    } catch (e) {
-        setError('An error occurred, please try again.');
-      }
-    finally {
-      setLoading(false);
-    }
   };
 
   return (

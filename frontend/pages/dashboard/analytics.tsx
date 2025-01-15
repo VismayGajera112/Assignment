@@ -14,7 +14,12 @@ const getUserIdFromToken = (token: string): string => {
 };
 
 const AnalyticsPage = () => {
-  const [events, setEvents] = useState([]);
+  interface Event {
+    id: string;
+    name: string;
+  }
+  
+  const [events, setEvents] = useState<Event[]>([]);
   const [selectedEvent, setSelectedEvent] = useState("");
   const [loading, setLoading] = useState(true);
 
@@ -57,13 +62,13 @@ const AnalyticsPage = () => {
         disabled={loading}
       >
         <option value="">None</option>
-        {events.map((event: any) => (
+        {events.map((event) => (
           <option key={event.id} value={event.id}>
             {event.name}
           </option>
         ))}
       </select>
-      {selectedEvent && <AnalyticsDisplay eventId={Number(selectedEvent)} />}
+      <AnalyticsDisplay eventId={Number(selectedEvent)} />
     </div>
   );
 };

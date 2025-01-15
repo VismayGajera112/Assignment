@@ -127,7 +127,7 @@ const Dashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {dashboardData.data.map((event: any) => (
+                {dashboardData.data.map((event) => (
                   <tr key={event.id}>
                     <td style={{ border: "1px solid #ddd", padding: "8px" }}>
                       {event.name}
