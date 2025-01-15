@@ -4,12 +4,16 @@ from services.sentiment_analysis import analyze_sentiment
 from services.engagement import calculate_engagement
 from services.report_generator import generate_report
 from flask_sqlalchemy import SQLAlchemy
+import os
+from dotenv import load_dotenv
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for cross-origin requests
 
 # Database configuration
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://admin:admin123@localhost:5432/event_analytics'
+load_dotenv()  # Load environment variables from .env file
+
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
