@@ -109,11 +109,6 @@ The platform is designed with a microservices architecture to ensure scalability
 - **Backend**: Flask for its simplicity and flexibility in building APIs.
 - **Database**: PostgreSQL for its reliability and advanced features.
 
-## User Documentation
-
-### Feature Documentation
-Detailed documentation for each feature of the platform can be found in the `docs` directory.
-
 ### Usage Instructions
 Follow the setup instructions to get the platform running locally. Refer to the feature documentation for detailed usage instructions.
 
