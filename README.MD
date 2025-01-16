@@ -42,3 +42,80 @@ The platform is deployed using the following architecture:
     ```sh
     git clone https://github.com/your-repo/event-analytics-platform.git
     cd event-analytics-platform
+    ```
+
+2. **Install dependencies**:
+    ```sh
+    npm install
+    ```
+
+3. **Set up environment variables**:
+    - Create a `.env` file in the `event-analytics-backend` directory and add the necessary environment variables as specified in the `.env.example` file.
+    - Create a `.env` file in the `python-service` directory and add the necessary environment variables as specified in the `.env.example` file.
+
+4. **Run the development servers**:
+    - For the frontend:
+        ```sh
+        cd frontend
+        npm run dev
+        ```
+    - For the backend:
+        ```sh
+        cd event-analytics-backend
+        npm start
+        ```
+    - For the Python service:
+        ```sh
+        cd python-service
+        python app.py
+        ```
+
+### Environment Configuration
+Ensure that you have the following environment variables set up in your `.env` files:
+
+- **Frontend**:
+    - `NEXT_PUBLIC_API_URL`: The URL of the backend API.
+
+- **Backend**:
+    - `DATABASE_URL`: The connection string for the PostgreSQL database.
+    - `JWT_SECRET`: The secret key for JWT authentication.
+
+- **Python Service**:
+    - `DATABASE_URL`: The connection string for the PostgreSQL database.
+
+### Database Setup
+1. **Run database migrations**:
+    ```sh
+    cd event-analytics-backend
+    npx prisma migrate dev
+    ```
+
+### Service Configuration
+Ensure that all services are properly configured to communicate with each other. Update the configuration files as needed.
+
+### Deployment Procedures
+Follow the deployment instructions for each service as specified in their respective directories.
+
+## Technical Decisions
+
+### Database Choice Rationale
+I chose PostgreSQL for its robustness, scalability, and support for advanced features like JSONB and full-text search.
+
+### Architecture Decisions
+The platform is designed with a microservices architecture to ensure scalability and maintainability.
+
+### Technology Stack Justification
+- **Frontend**: Next.js for its server-side rendering capabilities and seamless integration with Vercel.
+- **Backend**: Flask for its simplicity and flexibility in building APIs.
+- **Database**: PostgreSQL for its reliability and advanced features.
+
+## User Documentation
+
+### Feature Documentation
+Detailed documentation for each feature of the platform can be found in the `docs` directory.
+
+### Usage Instructions
+Follow the setup instructions to get the platform running locally. Refer to the feature documentation for detailed usage instructions.
+
+### Configuration Options
+Refer to the `.env.example` files in each service directory for a list of configurable environment variables.
