@@ -1,7 +1,7 @@
 import { useEventManagement } from "../hooks/useEventManagement";
 import { Card, Input, Button } from "@nextui-org/react";
 import { useState } from "react";
-import './styles.css';
+import styles from "./styles.module.css";
 
 const EventManagement = () => {
   const { createEvent } = useEventManagement();
@@ -116,7 +116,7 @@ const EventManagement = () => {
           style={{ marginBottom: "16px" }}
         />
         <Button
-          color="primary"
+          className={styles.button}
           onPress={handleCreateEvent}
           disabled={!newEvent.name || !newEvent.description}
         >

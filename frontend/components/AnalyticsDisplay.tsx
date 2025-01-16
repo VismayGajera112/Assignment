@@ -1,7 +1,7 @@
 import { getAnalytics } from "../services/analytics";
 import { Card, Progress, Spinner } from "@nextui-org/react";
 import { useEffect, useState } from "react";
-import './styles.css';
+
 import {
   Chart as ChartJS,
   CategoryScale,

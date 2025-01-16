@@ -3,7 +3,7 @@ import { Button, Input, Card, Spacer, Spinner } from '@nextui-org/react';
 import { useRouter } from 'next/router';
 import { useAuth } from '../hooks/useAuth';
 import Link from 'next/link';
-import './styles.css';
+import styles from './styles.module.css';
 
 const AuthForm = ({ type }: { type: 'login' | 'register' | 'reset-password' }) => {
   const [email, setEmail] = useState('');
@@ -99,6 +99,7 @@ const AuthForm = ({ type }: { type: 'login' | 'register' | 'reset-password' }) =
       )}
       <Spacer y={1} />
       <Button
+        className={styles.button}
         onPress={handleSubmit}
         disabled={loading}
         style={{
@@ -122,6 +123,7 @@ const AuthForm = ({ type }: { type: 'login' | 'register' | 'reset-password' }) =
         <>
         <Spacer y={0.5} />
         <Button
+          className={styles.button}
           onPress={() => router.push('/auth/register')}
           style={{ width: '100%', marginBottom: '8px', marginTop: '8px' }}
         >

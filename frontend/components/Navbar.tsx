@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import './styles.css';
+import styles from "./styles.module.css";
 
 const decodeRole = (token: string): string => {
   try {
@@ -23,32 +23,32 @@ const Navbar: React.FC = () => {
   }, []);
 
   return (
-    <nav className="navbar">
-      <ul className="navList">
+    <nav className={styles.navbar}>
+      <ul className={styles.navList}>
         {role === "organizer" ? (
           <>
-            <li className="navItem">
-              <Link href="/dashboard" className="navLink">
+            <li className={styles.navItem}>
+              <Link href="/dashboard" className={styles.navLink}>
                 Dashboard
               </Link>
             </li>
-            <li className="navItem">
-              <Link href="/dashboard/events" className="navLink">
+            <li className={styles.navItem}>
+              <Link href="/dashboard/events" className={styles.navLink}>
                 Events
               </Link>
             </li>
-            <li className="navItem">
-              <Link href="/profile" className="navLink">
+            <li className={styles.navItem}>
+              <Link href="/profile" className={styles.navLink}>
                 Profile
               </Link>
             </li>
-            <li className="navItem">
-              <Link href="/dashboard/analytics" className="navLink">
+            <li className={styles.navItem}>
+              <Link href="/dashboard/analytics" className={styles.navLink}>
                 Analytics
               </Link>
             </li>
-            <li className="navItem">
-                <Link href={"/logout"} className="navLink" onClick={() => {
+            <li className={styles.navItem}>
+                <Link href={"/logout"} className={styles.navLink} onClick={() => {
                 localStorage.removeItem("token");
                 window.location.href = "/dashboard";
                 }}>
@@ -58,18 +58,18 @@ const Navbar: React.FC = () => {
           </>
         ) : (
           <>
-            <li className="navItem">
-              <Link href="/dashboard" className="navLink">
+            <li className={styles.navItem}>
+              <Link href="/dashboard" className={styles.navLink}>
                 Dashboard
               </Link>
             </li>
-            <li className="navItem">
-              <Link href="/profile" className="navLink">
+            <li className={styles.navItem}>
+              <Link href="/profile" className={styles.navLink}>
                 Profile
               </Link>
             </li>
-            <li className="navItem">
-                <Link href={"/logout"} className="navLink" onClick={() => {
+            <li className={styles.navItem}>
+                <Link href={"/logout"} className={styles.navLink} onClick={() => {
                 localStorage.removeItem("token");
                 window.location.href = "/";
                 }}>
